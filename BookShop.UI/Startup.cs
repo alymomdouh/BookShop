@@ -1,5 +1,9 @@
+using BookShop.Infarstuructre.Data;
+using BookShop.Infarstuructre.ViewModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +23,13 @@ namespace BookShop.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<BookShopDB>(
+                options =>
+                            {
+                                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                            }
+                );
+            services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<BookShopDB>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
